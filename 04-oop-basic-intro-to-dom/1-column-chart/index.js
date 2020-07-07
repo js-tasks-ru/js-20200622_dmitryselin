@@ -57,7 +57,6 @@ export default class ColumnChart {
   update({ bodyData }) {
     this.data = bodyData;
     this.columnProps = this._getColumnProps();
-    this.render();
   }
 
   remove() {
