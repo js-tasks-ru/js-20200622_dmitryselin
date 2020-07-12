@@ -32,12 +32,9 @@ export default class NotificationMessage {
     `;
   }
 
-  show(targetElement = null) {
+  show(parent = document.body) {
+    parent.append(this.element);
     setTimeout(() => this.remove(), this.duration);
-    this.render();
-    if (targetElement) {
-      targetElement.appendChild(this.element);
-    }
   }
 
   render() {
@@ -52,5 +49,6 @@ export default class NotificationMessage {
 
   destroy() {
     this.remove();
+    NotificationMessage.instance = null;
   }
 }
