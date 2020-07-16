@@ -26,7 +26,7 @@ class Tooltip {
 
   onPointerMove = (event) => {
     if (event.target.dataset.tooltip !== undefined) {
-      this.move(event.x, event.y);
+      this.move(event.clientX, event.clientY);
     }
   };
 

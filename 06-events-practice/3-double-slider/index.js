@@ -16,23 +16,23 @@ export default class DoubleSlider {
   }
 
   onMouseMove = event => {
-    const rect = this.subElements.inner.getBoundingClientRect();
     const { clientX } = event;
+    const rect = this.subElements.inner.getBoundingClientRect();
 
     if (this.dragging === this.subElements.thumbLeft) {
-      let newFrom = Math.floor((clientX + this.shiftX - rect.left) * (this.max - this.min) / (rect.right - rect.left)) + this.min;
+      let newFrom = Math.floor((clientX + this.shiftX - rect.left) * (this.max - this.min) / rect.width) + this.min;
       if (newFrom < this.min) newFrom = this.min;
       if (newFrom > this.selected.to) newFrom = this.selected.to;
       this.setPosition(newFrom);
     } else {
-      let newTo = Math.floor((clientX + this.shiftX - rect.left) * (this.max - this.min) / (rect.right - rect.left)) + this.min;
+      let newTo = Math.floor((clientX + this.shiftX - rect.left) * (this.max - this.min) / rect.width) + this.min;
       if (newTo > this.max) newTo = this.max;
       if (newTo < this.selected.from) newTo = this.selected.from;
       this.setPosition(null, newTo);
     }
   };
 
-  onMouseUp = event => {
+  onMouseUp = () => {
     this.element.dispatchEvent(new CustomEvent('range-select', {
       detail: this.selected,
     }));
@@ -61,13 +61,13 @@ export default class DoubleSlider {
   get template() {
     return `
       <div class="range-slider">
-        <span data-element="from">${this.formatValue(this.selected.from)}</span>
+        <span data-element="from"></span>
         <div class="range-slider__inner" data-element="inner">
           <span class="range-slider__progress" data-element="progress"></span>
           <span class="range-slider__thumb-left" data-element="thumbLeft"></span>
           <span class="range-slider__thumb-right" data-element="thumbRight"></span>
         </div>
-        <span data-element="to">${this.formatValue(this.selected.to)}</span>
+        <span data-element="to"></span>
       </div>
     `;
   }
@@ -95,17 +95,17 @@ export default class DoubleSlider {
 
   setPosition(from = null, to = null) {
     if (from) {
-      this.subElements.from.innerHTML = this.formatValue(from);
       const leftPercent = Math.floor((from - this.min) / (this.max - this.min) * 100);
       this.subElements.progress.style.left = `${leftPercent}%`;
       this.subElements.thumbLeft.style.left = `${leftPercent}%`;
+      this.subElements.from.textContent = this.formatValue(from);
       this.selected.from = from;
     }
     if (to) {
-      this.subElements.to.innerHTML = this.formatValue(to);
       const rightPercent = Math.floor((this.max - to) / (this.max - this.min) * 100);
       this.subElements.progress.style.right = `${rightPercent}%`;
       this.subElements.thumbRight.style.right = `${rightPercent}%`;
+      this.subElements.to.textContent = this.formatValue(to);
       this.selected.to = to;
     }
   }
