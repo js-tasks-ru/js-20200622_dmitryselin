@@ -87,7 +87,6 @@ export default class ColumnChart {
         }
       })
       .catch(err => {
-        console.log(err);
         this.data = [];
       })
   }

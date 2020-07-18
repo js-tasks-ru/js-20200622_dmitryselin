@@ -31,7 +31,7 @@ export default class SortableTable {
     this.sortOnServer(field, order);
   };
 
-  onScroll = () => {
+  onScroll = (event) => {
     if (this.loading) return;
     if (this.data.length % PAGE_SIZE) return;
     if (this.element.getBoundingClientRect().bottom >= document.documentElement.clientHeight) return;
@@ -183,7 +183,6 @@ export default class SortableTable {
         this.loading = false;
         this.element.classList.remove('sortable-table_loading');
         this.subElements.body.innerHTML = this.getTableRows(this.data);
-        console.log(err);
       })
   }
 
@@ -200,6 +199,5 @@ export default class SortableTable {
   destroy() {
     this.removeEventListeners();
     this.remove();
-    this.subElements = {};
   }
 }
