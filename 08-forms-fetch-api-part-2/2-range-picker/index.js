@@ -19,7 +19,7 @@ export default class RangePicker {
     if (this.element.classList.contains('rangepicker_open')) {
       this.element.classList.remove('rangepicker_open');
     } else {
-      if (this.subElements.selector.innerHTML === '') this.subElements.selector.innerHTML = this.getSelectorContent();
+      if (!this.subElements.selector.innerHTML) this.subElements.selector.innerHTML = this.getSelectorContent();
       this.element.classList.add('rangepicker_open');
     }
   }
@@ -186,8 +186,8 @@ export default class RangePicker {
 
   getCellClass(date) {
     let result = "rangepicker__cell";
-    if (this.compareDates(date, this.dateFrom) === 0) result += ' rangepicker__selected-from';
-    if (this.compareDates(date, this.dateTo) === 0) result += ' rangepicker__selected-to';
+    if (!this.compareDates(date, this.dateFrom)) result += ' rangepicker__selected-from';
+    if (!this.compareDates(date, this.dateTo)) result += ' rangepicker__selected-to';
     if (this.compareDates(date, this.dateFrom) === 1 && this.compareDates(date, this.dateTo) === -1) {
       result += ' rangepicker__selected-between';
     }
