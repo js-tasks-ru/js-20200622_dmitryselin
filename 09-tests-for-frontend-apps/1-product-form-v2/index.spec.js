@@ -1,7 +1,7 @@
 import ProductForm from './index.js';
 
-import productData from './__mocks__/product-data.js';
-import categoriesData from './__mocks__/categories-data.js';
+import productData from './__mocks__/product-data-lesson-9.js';
+import categoriesData from './__mocks__/categories-data-lesson-9.js';
 
 describe('tests-for-frontend-apps/product-form-v2', () => {
   let productFormComponent;
