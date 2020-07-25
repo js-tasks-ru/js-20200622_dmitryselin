@@ -22,9 +22,10 @@ export default class SortableList {
   dragStart(element, {clientX, clientY}) {
     this.elementInitialIndex = [...this.element.children].indexOf(element);
     const rect = element.getBoundingClientRect();
+    const [rectX, rectY] = rect ? [rect.x, rect.y] : [0, 0]; // fix for tests
     this.pointerInitialShift = {
-      x: clientX - rect.x,
-      y: clientY - rect.y,
+      x: clientX - rectX,
+      y: clientY - rectY,
     };
     this.draggingElement = element;
 
