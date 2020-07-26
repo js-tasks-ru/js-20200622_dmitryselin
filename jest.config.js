@@ -2,7 +2,7 @@ const config = {
   verbose: true,
   setupFilesAfterEnv: ['./jest-setup-files-after-env.js'],
   modulePathIgnorePatterns: [
-    "<rootDir>"
+    ".*__mocks__.*"
   ]
 };
 
