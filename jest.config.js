@@ -1,6 +1,9 @@
 const config = {
   verbose: true,
-  setupFilesAfterEnv: ['./jest-setup-files-after-env.js']
+  setupFilesAfterEnv: ['./jest-setup-files-after-env.js'],
+  modulePathIgnorePatterns: [
+    "<rootDir>"
+  ]
 };
 
 if (process.env.CI) {
