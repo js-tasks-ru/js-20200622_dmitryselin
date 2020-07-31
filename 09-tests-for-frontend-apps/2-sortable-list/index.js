@@ -48,8 +48,7 @@ export default class SortableList {
     this.draggingElement.style.top = `${y - this.pointerInitialShift.y}px`;
   }
 
-  onPointerMove = (event) => {
-    const { clientX, clientY } = event;
+  onPointerMove = ({ clientX, clientY }) => {
     this.moveDraggingAt(clientX, clientY);
 
     if (clientY < this.element.firstElementChild.getBoundingClientRect().top) {
@@ -57,18 +56,17 @@ export default class SortableList {
     } else if (clientY > this.element.lastElementChild.getBoundingClientRect().bottom) {
       this.movePlaceholderAt(this.element.children.length);
     } else {
-      for (let t = 0; t < this.element.children.length; t++) {
-        const child = this.element.children[t];
+      for (const [index, child] of [...this.element.children].entries()) {
         const childRect = child.getBoundingClientRect();
         if (child !== this.draggingElement && clientY > childRect.top && clientY < childRect.bottom) {
-          if (clientY < childRect.top + child.offsetHeight / 2) this.movePlaceholderAt(t);
-          else this.movePlaceholderAt(t + 1);
+          if (clientY < childRect.top + child.offsetHeight / 2) this.movePlaceholderAt(index);
+          else this.movePlaceholderAt(index + 1);
           break;
         }
       }
     }
 
-    this.scrollIfCloseToWindowEdge(event);
+    this.scrollIfCloseToWindowEdge(clientY);
   }
 
   movePlaceholderAt(index) {
@@ -76,8 +74,7 @@ export default class SortableList {
     if (child !== this.placeholderElement) this.element.insertBefore(this.placeholderElement, child);
   }
 
-  scrollIfCloseToWindowEdge(event) {
-    const { clientY } = event;
+  scrollIfCloseToWindowEdge(clientY) {
     const minDistanceToEdge = 20;
     const scrollStep = 10;
     if (clientY < minDistanceToEdge) window.scrollBy(0, -scrollStep);
