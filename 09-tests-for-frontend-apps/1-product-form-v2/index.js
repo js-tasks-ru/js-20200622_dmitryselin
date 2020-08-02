@@ -4,6 +4,17 @@ import SortableList from "../2-sortable-list/index.js";
 const IMGUR_CLIENT_ID = '28aaa2e823b03b1';
 const BACKEND_URL = 'https://course-js.javascript.ru';
 
+const FIELDS = [
+  { name: 'title', type: 'string' },
+  { name: 'description', type: 'string' },
+  { name: 'images', type: 'array' },
+  { name: 'subcategory', type: 'string' },
+  { name: 'price', type: 'number' },
+  { name: 'discount', type: 'number' },
+  { name: 'quantity', type: 'number' },
+  { name: 'status', type: 'number' },
+];
+
 export default class ProductForm {
   element;
   subElements = {};
@@ -12,17 +23,6 @@ export default class ProductForm {
   fileInput;
   categories = [];
   imagesSortableList;
-
-  static fields = {
-    title: { name: 'title', type: 'string' },
-    description: { name: 'description', type: 'string' },
-    images: { name: 'images', type: 'array' },
-    subcategory: { name: 'subcategory', type: 'string' },
-    price: { name: 'price', type: 'number' },
-    discount: { name: 'discount', type: 'number' },
-    quantity: { name: 'quantity', type: 'number' },
-    status: { name: 'status', type: 'number' },
-  };
 
   onSubmit = async (event) => {
     event.preventDefault();
@@ -174,10 +174,9 @@ export default class ProductForm {
   async updateProduct() {
     if (!this.productId) return;
     try {
-      const [product] = (await this.loadProducts());
+      const [product] = await this.loadProducts();
 
-      const { title, description, price, discount, quantity, status } = ProductForm.fields;
-      const fields = [title, description, price, discount, quantity, status];
+      const fields = FIELDS.filter(field => field.name !== 'subcategory' && field.name !== 'images');
       fields.forEach(field => {
         const fieldName = field.name;
         this.form.elements[fieldName].value = product[fieldName];
@@ -222,8 +221,7 @@ export default class ProductForm {
   async save() {
     const isExistingProduct = !!this.productId;
 
-    const { title, description, subcategory, price, discount, quantity, status } = ProductForm.fields;
-    const fields = [title, description, subcategory, price, discount, quantity, status];
+    const fields = FIELDS.filter(field => field.name !== 'images');
     const productData = {};
     fields.forEach(field => {
       const fieldName = field.name;
