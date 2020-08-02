@@ -146,3 +146,4 @@ export default class Page {
     for (const component of Object.values(this.components)) component.destroy();
   }
 }
+
